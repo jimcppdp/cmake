@@ -3,7 +3,13 @@
 function(set_project_config)
 
   set(PROJ_NAME "helloworld" CACHE INTERNAL "project name") # CACHE INTERNAL means global variable definition in cmake
-  set(PROJ_VER "0.99" CACHE INTERNAL "project version")
+
+  set(CPACK_PACKAGE_VERSION_MAJOR "1" CACHE INTERNAL "")
+  set(CPACK_PACKAGE_VERSION_MINOR "0" CACHE INTERNAL "")
+  set(CPACK_PACKAGE_VERSION_PATCH "0" CACHE INTERNAL "")
+  set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" CACHE INTERNAL "")  
+
+  set(PROJ_VER ${CPACK_PACKAGE_VERSION} CACHE INTERNAL "project version")
 
   # note. environment variable QTDIR is required in Windows
   #       required in Macos if launch directly from finder, or make a dmg installer
@@ -14,8 +20,10 @@ function(set_project_config)
     set(CMAKE_PREFIX_PATH $ENV{QTDIR} CACHE INTERNAL "qt path")
     message("Using Qt at path: " ${CMAKE_PREFIX_PATH})
 
-endif()  
+  endif()
+
 endfunction()
+
 
 function(show_cmake_variables)
   message("Below is showing some cmake-variables ...")
@@ -48,6 +56,7 @@ function(show_cmake_variables)
 
   message("CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
   message("VC_INSTALLDIR: ${VC_INSTALLDIR}")
+  message("CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION}")
 
   message("Above is showing some cmake-variables ...")
   message("")
@@ -112,6 +121,11 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
       COMMAND $ENV{QTDIR}/bin/macdeployqt ${PROJECT_NAME}.app -dmg)
 
+  # just test cpack if it can make zip on macos, no need due to -dmg
+  install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.app DESTINATION .)
+  set(CPACK_GENERATOR "ZIP")
+  INCLUDE(CPack)
+
 elseif(WIN32)
 
   set(CMAKE_PREFIX_PATH $ENV{QTDIR}) # set CMAKE_PREFIX_PATH is required in Windows
@@ -130,7 +144,6 @@ elseif(WIN32)
 
   #INCLUDE(InstallRequiredSystemLibraries)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/packages/ DESTINATION .)
-  set(CPACK_PACKAGE_VERSION "1.0.0")
   set(CPACK_GENERATOR "ZIP")
   INCLUDE(CPack)
 

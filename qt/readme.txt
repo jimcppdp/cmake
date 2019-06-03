@@ -3,7 +3,6 @@ TODO:
   - setup/build/test/deploy
   - deploy a single installer on Windows
 
-  cpack -G ZIP
 
 ###############################################################################
 
@@ -62,7 +61,11 @@ Windows version of setup/build/deploy
 
   build method 8 .. 12 can refer to 2 .. 7 but for x64 version
 
-  build method 13 - TODO for single installer 
+  build method 13
+    run 'cmake -G "Visual Studio 14 2015"' .. for build x86 32bit version
+    run 'cmake --build .' to get runable debug version in build\Debug directory
+    run 'cpack -G ZIP' to get a zip file. Unzip it to any folder to be able to run the app without missing dll
+
 
   some useful shell commands:
     rmdir /s /q build  - delete build directory including sub-directory
@@ -128,6 +131,8 @@ macos version of setup/build
 
   build method 3
     using xcode to open the project and build / debug
+
+  build method 4
 
   some useful shell commands:
     rm -fr build  - delete build folder including sub-folder   

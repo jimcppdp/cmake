@@ -3,6 +3,8 @@ TODO:
   - setup/build/test/deploy
   - deploy a single installer on Windows
 
+  cpack -G ZIP
+
 ###############################################################################
 
 Windows version of setup/build/deploy

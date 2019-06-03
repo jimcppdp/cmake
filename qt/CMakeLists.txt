@@ -3,7 +3,7 @@
 function(set_project_config)
 
   set(PROJ_NAME "helloworld" CACHE INTERNAL "project name") # CACHE INTERNAL means global variable definition in cmake
-  set(PROJ_VER "0.01" CACHE INTERNAL "project version")
+  set(PROJ_VER "0.99" CACHE INTERNAL "project version")
 
   # note. environment variable QTDIR is required in Windows
   #       required in Macos if launch directly from finder, or make a dmg installer
@@ -125,8 +125,14 @@ elseif(WIN32)
   #   is just for removing warning for windeployqt
   add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
       COMMAND set "VCINSTALLDIR=${VC_INSTALLDIR}"
-      COMMAND $ENV{QTDIR}/bin/windeployqt --dir "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>" --no-compiler-runtime
-      ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.exe)  
+      COMMAND $ENV{QTDIR}/bin/windeployqt --dir "${CMAKE_CURRENT_BINARY_DIR}/deploy/packages" --no-compiler-runtime
+      ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.exe)
+
+  #INCLUDE(InstallRequiredSystemLibraries)
+  install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/packages/ DESTINATION .)
+  set(CPACK_PACKAGE_VERSION "1.0.0")
+  set(CPACK_GENERATOR "ZIP")
+  INCLUDE(CPack)
 
 endif()
 

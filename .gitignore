@@ -1,0 +1,5 @@
+# cmake build files
+build
+
+# macos special
+.DS_Store

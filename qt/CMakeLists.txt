@@ -1,8 +1,20 @@
 #############################  function declaration  ##########################
 
 function(set_project_config)
+
   set(PROJ_NAME "helloworld" CACHE INTERNAL "project name") # CACHE INTERNAL means global variable definition in cmake
   set(PROJ_VER "0.01" CACHE INTERNAL "project version")
+
+  # note. environment variable QTDIR is required in Windows
+  #       required in Macos if launch directly from finder, or make a dmg installer
+  #
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    # placeholder
+  elseif(WIN32)
+    set(CMAKE_PREFIX_PATH $ENV{QTDIR} CACHE INTERNAL "qt path")
+    message("Using Qt at path: " ${CMAKE_PREFIX_PATH})
+
+endif()  
 endfunction()
 
 function(show_cmake_variables)
@@ -32,7 +44,10 @@ function(show_cmake_variables)
   message("MACOSX_BUNDLE_GUI_IDENTIFIER: ${MACOSX_BUNDLE_GUI_IDENTIFIER}")
   message("MACOSX_BUNDLE_BUNDLE_LONG_VERSION_STRING: ${MACOSX_BUNDLE_BUNDLE_LONG_VERSION_STRING}")
   message("MACOSX_BUNDLE_BUNDLE_NAME: ${MACOSX_BUNDLE_BUNDLE_NAME}")
-  message("MACOSX_BUNDLE_BUNDLE_SHORT_VERSION_STRING: ${MACOSX_BUNDLE_BUNDLE_SHORT_VERSION_STRING}")        
+  message("MACOSX_BUNDLE_BUNDLE_SHORT_VERSION_STRING: ${MACOSX_BUNDLE_BUNDLE_SHORT_VERSION_STRING}")
+
+  message("CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
+  message("VC_INSTALLDIR: ${VC_INSTALLDIR}")
 
   message("Above is showing some cmake-variables ...")
   message("")
@@ -88,7 +103,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   set_macos_bundle_variables()
 
-  # Tell CMake to create the helloworld executable
+  # Tell CMake to create the executable
   add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${project_SRCS} ${PLATFORM_SOURCES})
   # Use the Widgets module from Qt 5
   target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
@@ -99,10 +114,19 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 elseif(WIN32)
 
-  # Tell CMake to create the helloworld executable
+  set(CMAKE_PREFIX_PATH $ENV{QTDIR}) # set CMAKE_PREFIX_PATH is required in Windwos
+  message("Using Qt at path: " ${CMAKE_PREFIX_PATH})
+  # Tell CMake to create the executable
   add_executable(${PROJECT_NAME} WIN32 ${project_SRCS} )
   # Use the Widgets module from Qt 5
   target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+
+  # doing below COMMAND set "VCINSTALLDIR=${VC_INSTALLDIR}" 
+  #   is just for removing warning for windeployqt
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+      COMMAND set "VCINSTALLDIR=${VC_INSTALLDIR}"
+      COMMAND $ENV{QTDIR}/bin/windeployqt --dir "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>" --no-compiler-runtime
+      ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.exe)  
 
 endif()
 

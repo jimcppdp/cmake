@@ -114,7 +114,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 elseif(WIN32)
 
-  set(CMAKE_PREFIX_PATH $ENV{QTDIR}) # set CMAKE_PREFIX_PATH is required in Windwos
+  set(CMAKE_PREFIX_PATH $ENV{QTDIR}) # set CMAKE_PREFIX_PATH is required in Windows
   message("Using Qt at path: " ${CMAKE_PREFIX_PATH})
   # Tell CMake to create the executable
   add_executable(${PROJECT_NAME} WIN32 ${project_SRCS} )

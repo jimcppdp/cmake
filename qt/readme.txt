@@ -1,4 +1,9 @@
 ###############################################################################
+TODO:
+  - setup/build/test/deploy
+  - deploy a single installer on Windows
+
+###############################################################################
 
 Windows version of setup/build/deploy
 

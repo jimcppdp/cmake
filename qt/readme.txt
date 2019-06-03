@@ -9,8 +9,10 @@ Windows version of setup/build/deploy
 
   install qt for win
   use qtcreator to new a qt widget app to get three files (mainwindow.ui , mainwindow.cpp, main.cpp)
+  from Visual Studio installed in start menu, open MSBuild command prompt which can build x86/x64 version app
   mkdir build && cd build
   Create CMakeLists.txt
+  set QTDIR=\path\to\qt # ex. x64 C:\Qt\5.11.3\msvc2015_64, x86 C:\Qt\5.11.3\msvc2015, affect only on build
 
   below is the key difference with mac version in CMakeLists.txt
 
@@ -51,6 +53,14 @@ Windows version of setup/build/deploy
     run 'cmake -G "Visual Studio 14 2015"' ..
     run 'msbuild helloworld.sln /t:helloworld /property:Configuration=Release' to get runable release version in build\Release directory
     actually it's the same result as method 2
+
+  build method 7
+    run 'cmake -G "Visual Studio 14 2015 Win64"' .. for build x64 64bit version
+    run 'cmake --build .' to get runable debug version in build\Debug directory
+
+  build method 8 .. 12 can refer to 2 .. 7 but for x64 version
+
+  build method 13 - TODO for single installer 
 
   some useful shell commands:
     rmdir /s /q build  - delete build directory including sub-directory

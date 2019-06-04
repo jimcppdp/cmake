@@ -144,6 +144,7 @@ elseif(WIN32)
 
   #INCLUDE(InstallRequiredSystemLibraries)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/packages/ DESTINATION .)
+  install(TARGETS ${PROJECT_NAME} DESTINATION .)
   set(CPACK_GENERATOR "ZIP")
   INCLUDE(CPack)
 

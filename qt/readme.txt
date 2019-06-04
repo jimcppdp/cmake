@@ -61,11 +61,18 @@ Windows version of setup/build/deploy
 
   build method 8 .. 12 can refer to 2 .. 7 but for x64 version
 
-  build method 13
+  build method 13 & deploy ZIP
     run 'cmake -G "Visual Studio 14 2015"' .. for build x86 32bit version
     run 'cmake --build . --config Release' to get runable release version in build\Release directory
     run 'cpack -G ZIP' to get a zip file. Unzip it to any folder to be able to run the app without missing dll
+    actually do set(CPACK_GENERATOR "ZIP") in CMakeLists.txt, run cpack is the same as cpack -G ZIP
 
+  build method 13 & deploy NSIS installer
+    run 'cmake -G "Visual Studio 14 2015"' .. for build x86 32bit version
+    run 'cmake --build . --config Release' to get runable release version in build\Release directory 
+    install NSIS (test on NSIS 3.04)
+    run 'cpack -G NSIS' to get an installer.exe
+    TODO: make installer to show on start menu and create desktop shortcut
 
   some useful shell commands:
     rmdir /s /q build  - delete build directory including sub-directory

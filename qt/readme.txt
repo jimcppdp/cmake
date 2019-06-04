@@ -63,7 +63,7 @@ Windows version of setup/build/deploy
 
   build method 13
     run 'cmake -G "Visual Studio 14 2015"' .. for build x86 32bit version
-    run 'cmake --build .' to get runable debug version in build\Debug directory
+    run 'cmake --build . --config Release' to get runable release version in build\Release directory
     run 'cpack -G ZIP' to get a zip file. Unzip it to any folder to be able to run the app without missing dll
 
 

@@ -72,7 +72,7 @@ Windows version of setup/build/deploy
     run 'cmake --build . --config Release' to get runable release version in build\Release directory 
     install NSIS (test on NSIS 3.04)
     run 'cpack -G NSIS' to get an installer.exe
-    TODO: make installer to show on start menu and create desktop shortcut
+    TODO: customize NSIS script to modify default registry
 
   some useful shell commands:
     rmdir /s /q build  - delete build directory including sub-directory

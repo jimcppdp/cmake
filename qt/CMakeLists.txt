@@ -63,6 +63,8 @@ function(show_cmake_variables)
   message("CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
   message("VC_INSTALLDIR: ${VC_INSTALLDIR}")
   message("CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION}")
+  message("CPACK_PACKAGE_EXECUTABLES: ${CPACK_PACKAGE_EXECUTABLES}")
+
 
   message("Above is showing some cmake-variables ...")
   message("")
@@ -149,8 +151,12 @@ elseif(WIN32)
 
   #set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
   #include(InstallRequiredSystemLibraries)
-  install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/packages/ DESTINATION .)
-  install(TARGETS ${PROJECT_NAME} DESTINATION .)
+  set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} "Hello World")
+  set(CPACK_CREATE_DESKTOP_LINKS ON)
+  set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/win.ico")
+
+  install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/packages/ DESTINATION bin)
+  install(TARGETS ${PROJECT_NAME} DESTINATION bin)
   include(CPack)
 
 endif()

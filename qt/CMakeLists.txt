@@ -7,7 +7,10 @@ function(set_project_config)
   set(CPACK_PACKAGE_VERSION_MAJOR "1" CACHE INTERNAL "")
   set(CPACK_PACKAGE_VERSION_MINOR "0" CACHE INTERNAL "")
   set(CPACK_PACKAGE_VERSION_PATCH "0" CACHE INTERNAL "")
-  set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" CACHE INTERNAL "")  
+  set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" CACHE INTERNAL "")
+
+  set(CPACK_GENERATOR "ZIP" CACHE INTERNAL "")
+
 
   set(PROJ_VER ${CPACK_PACKAGE_VERSION} CACHE INTERNAL "project version")
 
@@ -27,6 +30,8 @@ endfunction()
 
 function(show_cmake_variables)
   message("Below is showing some cmake-variables ...")
+
+  # cmake build in system variables
   message("APPLE: ${APPLE}")
   message("XCODE: ${XCODE}")
   message("XCODE_VERSION: ${XCODE_VERSION}")
@@ -54,6 +59,7 @@ function(show_cmake_variables)
   message("MACOSX_BUNDLE_BUNDLE_NAME: ${MACOSX_BUNDLE_BUNDLE_NAME}")
   message("MACOSX_BUNDLE_BUNDLE_SHORT_VERSION_STRING: ${MACOSX_BUNDLE_BUNDLE_SHORT_VERSION_STRING}")
 
+  # self created variables
   message("CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
   message("VC_INSTALLDIR: ${VC_INSTALLDIR}")
   message("CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION}")
@@ -123,8 +129,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   # just test cpack if it can make zip on macos, no need due to -dmg
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.app DESTINATION .)
-  set(CPACK_GENERATOR "ZIP")
-  INCLUDE(CPack)
+  include(CPack)
 
 elseif(WIN32)
 
@@ -142,11 +147,11 @@ elseif(WIN32)
       COMMAND $ENV{QTDIR}/bin/windeployqt --dir "${CMAKE_CURRENT_BINARY_DIR}/deploy/packages" --no-compiler-runtime
       ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.exe)
 
-  #INCLUDE(InstallRequiredSystemLibraries)
+  #set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+  #include(InstallRequiredSystemLibraries)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/packages/ DESTINATION .)
   install(TARGETS ${PROJECT_NAME} DESTINATION .)
-  set(CPACK_GENERATOR "ZIP")
-  INCLUDE(CPack)
+  include(CPack)
 
 endif()
 

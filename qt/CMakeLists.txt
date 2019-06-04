@@ -2,6 +2,7 @@
 
 function(set_project_config)
 
+  set(APP_COMPANY "Abc" CACHE INTERNAL "app company")
   set(PROJ_NAME "helloworld" CACHE INTERNAL "project name") # CACHE INTERNAL means global variable definition in cmake
 
   set(CPACK_PACKAGE_VERSION_MAJOR "1" CACHE INTERNAL "")
@@ -152,8 +153,9 @@ elseif(WIN32)
   #set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
   #include(InstallRequiredSystemLibraries)
   set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} "Hello World")
-  set(CPACK_CREATE_DESKTOP_LINKS ON)
-  set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/win.ico")
+  #set(CPACK_CREATE_DESKTOP_LINKS ON) # not working now
+  #set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/win.ico") # not working now
+  set(CPACK_PACKAGE_VENDOR ${APP_COMPANY})
 
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/deploy/packages/ DESTINATION bin)
   install(TARGETS ${PROJECT_NAME} DESTINATION bin)

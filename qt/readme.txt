@@ -6,6 +6,19 @@ TODO:
 
 ###############################################################################
 
+Update Windows version easy way:
+
+  install cmake for win
+  install qt for win
+  setup qt and vs path for qmake, cl, msbuild, nmake
+  mkdir build && cd build
+  cmake ..
+  cmake --build .
+  debug\helloworld.exe
+ 
+
+
+
 Windows version of setup/build/deploy
 
   install qt for win

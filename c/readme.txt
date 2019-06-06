@@ -1,7 +1,22 @@
+Windows:
+
+mkdir build && cd build
+cmake ..
+cmake --build .
+Debug/hello.exe
+
+clean - run rmdir to delete build folder:
+rmdir /s/q build
+
+==========================================================================
+
+MacOS:
+
 build - run following shell commands to build the app:
 mkdir build && cd build
 cmake ..
-make
+cmake --build . 
+or make
 ./hello
 
 clean - run rm to delete build folder:

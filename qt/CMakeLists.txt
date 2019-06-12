@@ -128,7 +128,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   # notetice. this is the key to fix the launch fail from finder in macos. the package folder including more files such as shared lib ...
   add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-      COMMAND $ENV{QTDIR}/bin/macdeployqt ${PROJECT_NAME}.app -dmg)
+      COMMAND $ENV{QTDIR}/clang_64/bin/macdeployqt ${PROJECT_NAME}.app -dmg)
 
   # just test cpack if it can make zip on macos, no need due to -dmg
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.app DESTINATION .)
